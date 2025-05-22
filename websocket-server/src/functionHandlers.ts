@@ -274,15 +274,24 @@ functions.push({
       },
     };
 
+    const notificationEmail = "yanlana2009@gmail.com";
+    let finalAttendees: { email: string }[] = [{ email: notificationEmail }];
+
     if (args.attendees && args.attendees.length > 0) {
-      event.attendees = args.attendees.map(email => ({ email }));
+      args.attendees.forEach(email => {
+        if (email.toLowerCase() !== notificationEmail.toLowerCase()) { 
+          finalAttendees.push({ email });
+        }
+      });
     }
+    event.attendees = finalAttendees;
 
     try {
       console.log("Attempting to create Google Calendar event:", JSON.stringify(event, null, 2));
       const response = await calendar.events.insert({
         calendarId: 'primary',
         requestBody: event,
+        sendUpdates: 'all', // Ensure notifications are sent
       });
       console.log('Event created. Response status:', response.status);
       if (response.data && response.data.htmlLink) {
