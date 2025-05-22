@@ -18,6 +18,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^149.0.0",
     "httpdispatcher": "^2.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",

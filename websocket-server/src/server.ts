@@ -10,7 +10,7 @@ import {
   handleCallConnection,
   handleFrontendConnection,
 } from "./sessionManager";
-import functions from "./functionHandlers";
+import functions, { setGoogleAccessToken } from "./functionHandlers";
 
 dotenv.config();
 
@@ -73,6 +73,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     if (currentLogs) currentLogs.close();
     currentLogs = ws;
     handleFrontendConnection(currentLogs);
+
   } else {
     ws.close();
   }

@@ -1,5 +1,5 @@
 import { RawData, WebSocket } from "ws";
-import functions from "./functionHandlers";
+import functions, { setGoogleAccessToken } from "./functionHandlers";
 
 interface Session {
   twilioConn?: WebSocket;
@@ -105,6 +105,18 @@ function handleTwilioMessage(data: RawData) {
 function handleFrontendMessage(data: RawData) {
   const msg = parseMessage(data);
   if (!msg) return;
+
+  console.log("Frontend message received in sessionManager:", msg);
+
+  if (msg.type === 'google.token.update' && typeof msg.token === 'string') {
+    console.log('Received google.token.update in sessionManager.');
+    setGoogleAccessToken(msg.token);
+    return;
+  } else if (msg.type === 'google.token.revoke') {
+    console.log('Received google.token.revoke in sessionManager.');
+    setGoogleAccessToken(null);
+    return;
+  }
 
   if (isOpen(session.modelConn)) {
     jsonSend(session.modelConn, msg);

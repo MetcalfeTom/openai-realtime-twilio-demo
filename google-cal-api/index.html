@@ -8,7 +8,7 @@
     <p>Google Calendar API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+    <button id="authorize_button" onclick="handleAuthClick()">Authorize!!!</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
@@ -91,7 +91,8 @@
           document.getElementById('authorize_button').innerText = 'Refresh';
           await listUpcomingEvents();
         };
-
+        console.log("TOKEN IS:");
+        console.log(gapi.client.getToken());
         if (gapi.client.getToken() === null) {
           // Prompt the user to select a Google Account and ask for consent to share their data
           // when establishing a new session.
@@ -147,7 +148,8 @@
         const output = events.reduce(
             (str, event) => `${str}${event.summary} (${event.start.dateTime || event.start.date})\n`,
             'Events:\n');
-        document.getElementById('content').innerText = output;
+        // document.getElementById('content').innerText = output;
+        document.getElementById('content').innerText = gapi.client.getToken().access_token;
       }
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
