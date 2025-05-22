@@ -98,10 +98,10 @@ functions.push({
   },
   handler: async (args: { name: string; company?: string }) => {
     try {
-      // Construct search query with name and company if provided
+      // Construct search query with name and company if provided, always including linkedin
       const searchQuery = args.company 
-        ? `${encodeURIComponent(args.name)} ${encodeURIComponent(args.company)}`
-        : encodeURIComponent(args.name);
+        ? `${encodeURIComponent(args.name)} ${encodeURIComponent(args.company)} linkedin`
+        : `${encodeURIComponent(args.name)} linkedin`;
       
       // Use a search API - this example uses a free API service
       const response = await fetch(
@@ -114,7 +114,7 @@ functions.push({
       if (!response.ok) {
         return JSON.stringify({
           message: "Could not retrieve detailed information. This is a demo response.",
-          searchQuery: `${args.name}${args.company ? ` at ${args.company}` : ''}`,
+          searchQuery: `${args.name}${args.company ? ` at ${args.company}` : ''} linkedin`,
           possibleInfo: {
             name: args.name,
             company: args.company || "Unknown",
@@ -133,7 +133,7 @@ functions.push({
       return JSON.stringify({
         error: "Error searching for person information",
         message: error instanceof Error ? error.message : "Unknown error",
-        searchQuery: `${args.name}${args.company ? ` at ${args.company}` : ''}`
+        searchQuery: `${args.name}${args.company ? ` at ${args.company}` : ''} linkedin`
       });
     }
   }
